@@ -80,6 +80,32 @@ e.preventDefault();
 alert(name+' demo form is working! Real account system is not connected yet.');
 }
 </script>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const SUPABASE_URL =https://gtqpybetecvcozbsjnsl.supabase.co/rest/v1/ 'YAHAN_PROJECT_URL_DALO';
+const SUPABASE_KEY =sb_publishable_aXeYcDdIVsRPCz8V1YKSpg_hNDDl8uo 'YAHAN_PUBLISHABLE_KEY_DALO';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+window.sevaLinkSignup = async function(email, password) {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password
+  });
+  if (error) return alert(error.message);
+  alert('Sign Up request successful! Email confirmation may be required.');
+};
+
+window.sevaLinkLogin = async function(email, password) {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  });
+  if (error) return alert(error.message);
+  alert('Login successful!');
+};
+</script>
 </body>
 </html>
 
