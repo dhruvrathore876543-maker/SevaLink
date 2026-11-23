@@ -75,7 +75,64 @@ document.getElementById('signup').style.display=id==='signup'?'block':'none';
 document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
 btn.classList.add('active');
 }
-function demo(e,name){
+<script type="module">
+import { createClient } from
+'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const SUPABASE_URL =
+'https://gtqpybetecvcozbsjnsl.supabase.co';
+
+const SUPABASE_KEY =
+'अपनी मौजूदा Publishable Key यहाँ डालो';
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+document.getElementById('signup').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const email = form.email.value;
+  const password = form.password.value;
+  const fullname = form.fullname.value;
+  const accountType = form.accountType.value;
+
+  const { error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullname,
+        account_type: accountType
+      }
+    }
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert('Account request successful! Check your email for confirmation.');
+});
+
+document.getElementById('login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: form.email.value,
+    password: form.password.value
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert('Login successful!');
+});
+</script>{
 e.preventDefault();
 alert(name+' demo form is working! Real account system is not connected yet.');
 }
