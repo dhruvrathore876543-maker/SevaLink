@@ -1,82 +1,86 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SevaLink - Local Services</title>
+<title>SevaLink - Login</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f8fc;color:#172033}
-header{background:#075e54;color:white;padding:22px 18px}
-nav{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:25px;font-weight:bold}
-nav a{color:white;text-decoration:none;margin-left:12px;font-size:14px}
-.hero{text-align:center;padding:65px 18px;background:linear-gradient(135deg,#075e54,#12a58d);color:white}
-.hero h1{font-size:36px;margin:0 0 12px}
-.hero p{font-size:17px}
-.search{background:white;padding:10px;border-radius:12px;max-width:450px;margin:25px auto;display:flex;gap:8px}
-.search input{flex:1;border:0;outline:none;padding:10px;min-width:0}
-button{background:#ffb703;color:#172033;border:0;padding:12px 18px;border-radius:8px;font-weight:bold;cursor:pointer}
-section{padding:35px 18px;text-align:center}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:15px;max-width:850px;margin:25px auto}
-.card{background:white;padding:25px 12px;border-radius:14px;box-shadow:0 3px 12px #dce3eb}
-.card span{font-size:35px}
-.card h3{margin-bottom:5px}
-.about{background:#e7f4f1}
-footer{background:#073d38;color:white;text-align:center;padding:22px}
+body{margin:0;font-family:Arial;background:#eef5f3;color:#173b36}
+header{background:#075e54;color:white;padding:22px;text-align:center}
+.logo{font-size:30px;font-weight:bold}
+.hero{text-align:center;padding:35px 15px}
+.hero h1{font-size:32px;color:#075e54}
+.hero p{color:#62736f}
+.container{max-width:420px;margin:10px auto 35px;background:white;padding:25px;border-radius:18px;box-shadow:0 5px 20px #ccd9d5}
+.tabs{display:flex;gap:10px;margin-bottom:22px}
+.tabs button{width:50%;padding:12px;border:0;border-radius:9px;background:#e5efec;color:#075e54;font-weight:bold}
+.tabs button.active{background:#075e54;color:white}
+input,select{width:100%;padding:14px;margin:9px 0;border:1px solid #ccd9d5;border-radius:9px;font-size:15px}
+.mainbtn{width:100%;padding:14px;background:#075e54;color:white;border:0;border-radius:9px;font-size:16px;font-weight:bold;margin-top:12px}
+.note{text-align:center;font-size:12px;color:#7a8884}
+footer{text-align:center;background:#073d38;color:white;padding:20px}
 </style>
 </head>
 <body>
-
 <header>
-<nav>
 <div class="logo">🙏 SevaLink</div>
-<div><a href="#home">Home</a><a href="#services">Services</a></div>
-</nav>
+<p>Connect People • Help People</p>
 </header>
 
-<div class="hero" id="home">
+<div class="hero">
 <h1>Welcome to SevaLink</h1>
-<p>Find Local Services. Connect with People.</p>
-<div class="search">
-<input id="search" placeholder="Search a service...">
-<button onclick="searchService()">Search</button>
-</div>
+<p>Your Local Services Marketplace</p>
 </div>
 
-<section id="services">
-<h2>Our Services</h2>
-<p>Find the help you need near you.</p>
-<div class="cards">
-<div class="card"><span>🔧</span><h3>Electrician</h3><p>Electrical services</p></div>
-<div class="card"><span>🚰</span><h3>Plumber</h3><p>Water and pipe services</p></div>
-<div class="card"><span>🧹</span><h3>Cleaning</h3><p>Home cleaning help</p></div>
-<div class="card"><span>🎨</span><h3>Painter</h3><p>Painting services</p></div>
-<div class="card"><span>💻</span><h3>Computer</h3><p>Computer assistance</p></div>
-<div class="card"><span>🤝</span><h3>Other Help</h3><p>More local services</p></div>
+<div class="container">
+<div class="tabs">
+<button class="active" onclick="showForm('login',this)">Login</button>
+<button onclick="showForm('signup',this)">Sign Up</button>
 </div>
-</section>
 
-<section class="about">
-<h2>About SevaLink</h2>
-<p>SevaLink is a platform designed to connect people with local service providers.</p>
-<h3>Our Mission</h3>
-<p>Connect People • Help People • Grow Together</p>
-</section>
+<form id="login" onsubmit="demo(event,'Login')">
+<h2>Welcome Back!</h2>
+<input type="email" placeholder="Email Address" required>
+<input type="password" placeholder="Password" required>
+<button class="mainbtn">Login</button>
+</form>
+
+<form id="signup" style="display:none" onsubmit="demo(event,'Sign Up')">
+<h2>Create Account</h2>
+<input type="text" placeholder="Full Name" required>
+<input type="email" placeholder="Email Address" required>
+<input type="password" placeholder="Create Password" required>
+<select required>
+<option value="">Select Account Type</option>
+<option>Customer</option>
+<option>Service Provider</option>
+<option>Volunteer</option>
+</select>
+<button class="mainbtn">Create Account</button>
+</form>
+<p class="note">Demo design only. Real account login is not connected yet.</p>
+</div>
 
 <footer>
 <h3>🙏 SevaLink</h3>
-<p>Made with care for everyone.</p>
+<p>Connect People • Help People</p>
 <p>© 2026 SevaLink</p>
 </footer>
 
 <script>
-function searchService(){
-let q=document.getElementById("search").value.trim();
-if(q){alert("You searched for: "+q);}
-else{alert("Please enter a service name.");}
+function showForm(id,btn){
+document.getElementById('login').style.display=id==='login'?'block':'none';
+document.getElementById('signup').style.display=id==='signup'?'block':'none';
+document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+}
+function demo(e,name){
+e.preventDefault();
+alert(name+' demo form is working! Real account system is not connected yet.');
 }
 </script>
 </body>
 </html>
+
+
