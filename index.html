@@ -1,272 +1,77 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#075e54">
-  <title>SevaLink - Connect People</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: Arial, sans-serif;
-      background: #eef5f3; color: #173b36;
-    }
-    header {
-      background: #075e54; color: white; padding: 22px;
-      text-align: center;
-    }
-    .logo { font-size: 30px; font-weight: bold; }
-    .hero { text-align: center; padding: 35px 15px; }
-    .hero h1 { font-size: 32px; color: #075e54; margin-bottom: 8px; }
-    .hero p { color: #62736f; }
-    .container {
-      max-width: 420px; width: calc(100% - 28px);
-      margin: 10px auto 35px; background: white; padding: 25px;
-      border-radius: 18px; box-shadow: 0 5px 20px #ccd9d5;
-    }
-    .tabs { display: flex; gap: 10px; margin-bottom: 22px; }
-    .tabs button {
-      width: 50%; padding: 12px; border: 0; border-radius: 9px;
-      background: #e5efec; color: #075e54; font-weight: bold;
-      cursor: pointer;
-    }
-    .tabs button.active { background: #075e54; color: white; }
-    input, select {
-      display: block; width: 100%; padding: 14px; margin: 9px 0;
-      border: 1px solid #ccd9d5; border-radius: 9px; font-size: 15px;
-      background: white;
-    }
-    .mainbtn {
-      width: 100%; padding: 14px; background: #075e54; color: white;
-      border: 0; border-radius: 9px; font-size: 16px; font-weight: bold;
-      margin-top: 12px; cursor: pointer;
-    }
-    .mainbtn:disabled { opacity: .6; cursor: wait; }
-    .note { text-align: center; font-size: 12px; color: #7a8884; }
-    #message {
-      text-align: center; padding: 10px; font-size: 14px;
-      overflow-wrap: anywhere; min-height: 20px;
-    }
-    #accountBox { display: none; text-align: center; padding: 15px; }
-    #accountBox p { overflow-wrap: anywhere; }
-    #logoutBtn { background: #a83232; }
-    footer {
-      text-align: center; background: #073d38; color: white; padding: 20px;
-    }
-  </style>
-</head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#075e54"><title>SevaLink - Local Services</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef5f3;color:#173b36}
+header{background:#075e54;color:white;padding:16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
+.brand{font-size:25px;font-weight:bold}.tag{font-size:12px}button{cursor:pointer;font:inherit}
+main{max-width:1000px;margin:auto;padding:16px}.hero{background:linear-gradient(135deg,#075e54,#168878);color:white;padding:25px;border-radius:16px;margin:8px 0 18px}
+.hero h1{margin:0 0 8px;font-size:27px}.hero p{line-height:1.5}
+input,select,textarea{width:100%;padding:13px;margin:7px 0;border:1px solid #ccd9d5;border-radius:9px;font-size:15px}
+#authPanel{max-width:430px;margin:28px auto;background:white;padding:22px;border-radius:16px;box-shadow:0 5px 20px #ccd9d5}
+.tabs{display:flex;gap:8px}.tabs button{width:50%;padding:12px;border:0;border-radius:9px;background:#e5efec;color:#075e54;font-weight:bold}.tabs .active,.primary{background:#075e54;color:white}
+.primary{width:100%;padding:13px;border:0;border-radius:9px;margin-top:9px;font-weight:bold}
+#message{text-align:center;min-height:22px;font-size:14px;overflow-wrap:anywhere}
+#dashboard{display:none}.heading{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}.heading h2{font-size:20px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.service{background:white;border:1px solid #e0ebe7;border-radius:14px;padding:15px 12px;text-align:left;color:#173b36;min-height:110px}
+.service .emoji{display:block;font-size:28px;margin-bottom:8px}.service strong,.service small{display:block}.service small{color:#667873;margin-top:5px}
+.panel{background:white;border-radius:14px;padding:17px;margin-top:17px}.panel h2{margin-top:0}
+#requestPanel{display:none}.muted{color:#667873;font-size:13px;line-height:1.5}
+footer{text-align:center;background:#073d38;color:white;padding:20px;font-size:13px}
+.small{padding:9px 12px;border:1px solid #ffffff80;border-radius:8px;color:white;background:#ffffff18}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}main{padding:24px}}
+</style></head>
 <body>
-  <header>
-    <div class="logo">🙏 SevaLink</div>
-    <p>Connect People • Help People</p>
-  </header>
-
-  <main>
-    <section class="hero">
-      <h1>Welcome to SevaLink</h1>
-      <p>Your Local Services Marketplace</p>
-    </section>
-
-    <section class="container">
-      <div id="authBox">
-        <div class="tabs">
-          <button type="button" id="loginTab" class="active">Login</button>
-          <button type="button" id="signupTab">Sign Up</button>
-        </div>
-
-        <form id="loginForm">
-          <h2>Welcome Back!</h2>
-          <input type="email" name="email" placeholder="Email Address"
-                 autocomplete="email" required>
-          <input type="password" name="password" placeholder="Password"
-                 autocomplete="current-password" required>
-          <button class="mainbtn" type="submit">Login</button>
-        </form>
-
-        <form id="signupForm" style="display:none">
-          <h2>Create Account</h2>
-          <input type="text" name="fullname" placeholder="Full Name"
-                 autocomplete="name" maxlength="80" required>
-          <input type="email" name="email" placeholder="Email Address"
-                 autocomplete="email" required>
-          <input type="password" name="password" placeholder="Create Password"
-                 autocomplete="new-password" minlength="6" required>
-          <select name="accountType" required>
-            <option value="">Select Account Type</option>
-            <option value="Customer">Customer</option>
-            <option value="Service Provider">Service Provider</option>
-            <option value="Volunteer">Volunteer</option>
-          </select>
-          <button class="mainbtn" type="submit">Create Account</button>
-        </form>
-      </div>
-
-      <div id="accountBox">
-        <h2>Welcome to SevaLink!</h2>
-        <p id="userEmail"></p>
-        <button id="logoutBtn" class="mainbtn" type="button">Logout</button>
-      </div>
-
-      <p id="message" role="status" aria-live="polite"></p>
-      <p class="note">SevaLink - Connect People • Help People</p>
-    </section>
-  </main>
-
-  <footer>
-    <h3>🙏 SevaLink</h3>
-    <p>Connect People • Help People</p>
-    <p>© 2026 SevaLink</p>
-  </footer>
-
-  <script type="module">
-    import { createClient } from
-      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
-    // Supabase project settings
-    const SUPABASE_URL = 'https://gtqpybetecvcozbsjnsl.supabase.co';
-    const SUPABASE_KEY = 'sb_publishable_aXeYcDdIVsRPCz8V1YKSpg_hNDDl8uo';
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const loginTab = document.getElementById('loginTab');
-    const signupTab = document.getElementById('signupTab');
-    const authBox = document.getElementById('authBox');
-    const accountBox = document.getElementById('accountBox');
-    const message = document.getElementById('message');
-    const userEmail = document.getElementById('userEmail');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    function showMessage(text) {
-      message.textContent = text;
-    }
-
-    function switchForm(type) {
-      const isLogin = type === 'login';
-      loginForm.style.display = isLogin ? 'block' : 'none';
-      signupForm.style.display = isLogin ? 'none' : 'block';
-      loginTab.classList.toggle('active', isLogin);
-      signupTab.classList.toggle('active', !isLogin);
-      showMessage('');
-    }
-
-    function updateAccount(session) {
-      if (session?.user) {
-        authBox.style.display = 'none';
-        accountBox.style.display = 'block';
-        userEmail.textContent = 'Logged in as: ' + (session.user.email || '');
-      } else {
-        authBox.style.display = 'block';
-        accountBox.style.display = 'none';
-        userEmail.textContent = '';
-      }
-    }
-
-    loginTab.addEventListener('click', () => switchForm('login'));
-    signupTab.addEventListener('click', () => switchForm('signup'));
-
-    signupForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      const button = form.querySelector('button[type="submit"]');
-      const fullname = form.elements.fullname.value.trim();
-      const email = form.elements.email.value.trim();
-      const password = form.elements.password.value;
-      const accountType = form.elements.accountType.value;
-
-      if (!fullname) {
-        showMessage('Please enter your full name.');
-        return;
-      }
-
-      button.disabled = true;
-      showMessage('Creating your account...');
-
-      try {
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { full_name: fullname, account_type: accountType },
-            emailRedirectTo: window.location.origin
-          }
-        });
-
-        if (error) throw error;
-
-        if (data.session) {
-          updateAccount(data.session);
-          showMessage('Account created successfully!');
-        } else {
-          showMessage('Account created. Please check your email to verify it, then log in.');
-          switchForm('login');
-        }
-        form.reset();
-      } catch (error) {
-        showMessage('Sign Up Error: ' + (error.message || 'Please try again.'));
-      } finally {
-        button.disabled = false;
-      }
-    });
-
-    loginForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
-      const button = form.querySelector('button[type="submit"]');
-      const email = form.elements.email.value.trim();
-      const password = form.elements.password.value;
-
-      button.disabled = true;
-      showMessage('Logging in...');
-
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-        if (error) throw error;
-        updateAccount(data.session);
-        showMessage('Login successful!');
-        form.reset();
-      } catch (error) {
-        showMessage('Login Error: ' + (error.message || 'Please try again.'));
-      } finally {
-        button.disabled = false;
-      }
-    });
-
-    logoutBtn.addEventListener('click', async () => {
-      logoutBtn.disabled = true;
-      showMessage('Logging out...');
-
-      try {
-        const { error } = await supabase.auth.signOut();
-        if (error) throw error;
-        updateAccount(null);
-        showMessage('Logged out successfully!');
-      } catch (error) {
-        showMessage('Logout Error: ' + (error.message || 'Please try again.'));
-      } finally {
-        logoutBtn.disabled = false;
-      }
-    });
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      updateAccount(session);
-    });
-
-    async function checkSession() {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) throw error;
-        updateAccount(data.session);
-      } catch (error) {
-        showMessage('Connection Error: ' + (error.message || 'Unable to check login.'));
-      }
-    }
-
-    checkSession();
-  </script>
-</body>
-</html>
+<header><div><div class="brand">🙏 SevaLink</div><div class="tag">Connect People • Help People</div></div><div><span id="userLabel" style="font-size:12px"></span> <button id="logout" class="small" style="display:none">Logout</button></div></header>
+<main>
+<section id="authPanel">
+<div class="tabs"><button id="loginTab" class="active" type="button">Login</button><button id="signupTab" type="button">Sign Up</button></div>
+<form id="loginForm"><h2>Welcome Back!</h2><input type="email" name="email" placeholder="Email Address" required><input type="password" name="password" placeholder="Password" required><button class="primary">Login</button></form>
+<form id="signupForm" style="display:none"><h2>Create Account</h2><input name="fullname" placeholder="Full Name" maxlength="80" required><input type="email" name="email" placeholder="Email Address" required><input type="password" name="password" placeholder="Create Password (minimum 6 characters)" minlength="6" required><select name="accountType" required><option value="">Select Account Type</option><option>Customer</option><option>Service Provider</option><option>Volunteer</option></select><button class="primary">Create Account</button></form>
+<p id="message" role="status" aria-live="polite"></p>
+</section>
+<section id="dashboard">
+<div class="hero"><h1>Find Local Services Near You</h1><p>Choose the service you need and send a request to connect with local providers.</p><input id="search" type="search" placeholder="Search JCB, plumber, electrician..."></div>
+<div class="heading"><h2>Explore Services</h2><span class="muted">12 categories</span></div>
+<div class="grid" id="services">
+<button class="service" data-name="JCB"><span class="emoji">🚜</span><strong>JCB Service</strong><small>Earthmoving equipment</small></button>
+<button class="service" data-name="Tractor"><span class="emoji">🚜</span><strong>Tractor</strong><small>Farm and field services</small></button>
+<button class="service" data-name="Crane"><span class="emoji">🏗️</span><strong>Crane</strong><small>Lifting equipment</small></button>
+<button class="service" data-name="Plumber"><span class="emoji">🚰</span><strong>Plumber</strong><small>Water and pipe repairs</small></button>
+<button class="service" data-name="Electrician"><span class="emoji">⚡</span><strong>Electrician</strong><small>Electrical services</small></button>
+<button class="service" data-name="Mechanic"><span class="emoji">🔧</span><strong>Mechanic</strong><small>Vehicle repair</small></button>
+<button class="service" data-name="Cleaner"><span class="emoji">🧹</span><strong>Cleaning</strong><small>Home and shop cleaning</small></button>
+<button class="service" data-name="Tutor"><span class="emoji">📚</span><strong>Home Tutor</strong><small>Learning support</small></button>
+<button class="service" data-name="Jobs"><span class="emoji">💼</span><strong>Jobs</strong><small>Local work opportunities</small></button>
+<button class="service" data-name="Ambulance"><span class="emoji">🚑</span><strong>Ambulance</strong><small>Emergency transport</small></button>
+<button class="service" data-name="Blood Donor"><span class="emoji">🩸</span><strong>Blood Donor</strong><small>Volunteer donor directory</small></button>
+<button class="service" data-name="Volunteer"><span class="emoji">🤝</span><strong>Volunteer Help</strong><small>Community support</small></button>
+</div>
+<section class="panel"><h2>How SevaLink Works</h2><p>1. Choose a service category.</p><p>2. Enter your contact and service details.</p><p>3. Connect with a suitable local provider.</p></section>
+<section class="panel" id="requestPanel"><h2 id="requestHeading">Service Request</h2><form id="requestForm"><input id="chosenService" readonly><input name="name" placeholder="Your name" maxlength="80" required><input name="phone" type="tel" placeholder="Contact number" maxlength="15" required><input name="area" placeholder="Your area / city" maxlength="100" required><textarea name="details" placeholder="Describe the service you need" rows="3" maxlength="500" required></textarea><button class="primary">Prepare Request</button><button type="button" id="cancel" class="primary" style="background:#71817c">Cancel</button></form><p id="requestMessage" class="muted"></p></section>
+<p class="muted" style="text-align:center">Important: service requests are demo-only at this stage. They are not yet saved or sent to providers.</p>
+</section></main><footer>🙏 SevaLink • Connect People • Help People<br>© 2026 SevaLink</footer>
+<script type="module">
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+const SUPABASE_URL='https://gtqpybetecvcozbsjnsl.supabase.co';
+const SUPABASE_KEY='sb_publishable_aXeYcDdIVsRPCz8V1YKSpg_hNDDl8uo';
+const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+const auth=$('authPanel'),dash=$('dashboard'),login=$('loginForm'),signup=$('signupForm'),msg=$('message');
+function say(t){msg.textContent=t}
+function tabs(which){let a=which==='login';login.style.display=a?'block':'none';signup.style.display=a?'none':'block';$('loginTab').classList.toggle('active',a);$('signupTab').classList.toggle('active',!a);say('')}
+function sessionUI(s){let u=s?.user;auth.style.display=u?'none':'block';dash.style.display=u?'block':'none';$('logout').style.display=u?'inline-block':'none';$('userLabel').textContent=u?(u.email||'Signed in'):''}
+$('loginTab').onclick=()=>tabs('login');$('signupTab').onclick=()=>tabs('signup');
+signup.onsubmit=async e=>{e.preventDefault();let b=signup.querySelector('button');b.disabled=true;say('Creating account...');try{let {data,error}=await supabase.auth.signUp({email:signup.elements.email.value.trim(),password:signup.elements.password.value,options:{data:{full_name:signup.elements.fullname.value.trim(),account_type:signup.elements.accountType.value},emailRedirectTo:location.origin}});if(error)throw error;if(data.session){sessionUI(data.session);say('Account created successfully.')}else{tabs('login');say('Account created. Check your email for verification, then log in.')}signup.reset()}catch(e){say('Sign Up Error: '+e.message)}finally{b.disabled=false}};
+login.onsubmit=async e=>{e.preventDefault();let b=login.querySelector('button');b.disabled=true;say('Logging in...');try{let {data,error}=await supabase.auth.signInWithPassword({email:login.elements.email.value.trim(),password:login.elements.password.value});if(error)throw error;sessionUI(data.session);login.reset()}catch(e){say('Login Error: '+e.message)}finally{b.disabled=false}};
+$('logout').onclick=async()=>{let {error}=await supabase.auth.signOut();if(error)alert(error.message);else sessionUI(null)};
+supabase.auth.onAuthStateChange((_event,s)=>sessionUI(s));
+let {data:{session},error}=await supabase.auth.getSession();if(error)say(error.message);sessionUI(session);
+$('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase();document.querySelectorAll('.service').forEach(c=>c.style.display=c.dataset.name.toLowerCase().includes(q)?'block':'none')});
+document.querySelectorAll('.service').forEach(c=>c.onclick=()=>{$('chosenService').value=c.dataset.name;$('requestHeading').textContent=c.dataset.name+' Request';$('requestPanel').style.display='block';$('requestMessage').textContent='';$('requestPanel').scrollIntoView({behavior:'smooth'})});
+$('cancel').onclick=()=>{$('requestPanel').style.display='none';$('requestForm').reset()};
+$('requestForm').onsubmit=e=>{e.preventDefault();$('requestMessage').textContent='Demo only: this request has not been sent or saved. Provider booking will be connected in a later update.'};
+</script></body></html>
