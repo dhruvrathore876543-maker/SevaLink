@@ -7,189 +7,398 @@
 <title>SevaLink - Local Services</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#eef5f3;color:#18332e}
-header{background:#075e54;color:white;padding:18px;text-align:center}
-header h1{margin:0;font-size:28px}
-header p{margin:7px 0 0}
-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;background:#064b43;padding:12px}
-button{border:0;border-radius:8px;padding:12px 16px;background:#087e70;color:white;font-weight:bold;cursor:pointer}
-nav button{background:white;color:#075e54}
-main{max-width:950px;margin:auto;padding:18px}
-h2{text-align:center}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:13px}
-.service{background:white;border-radius:12px;padding:20px 10px;text-align:center;box-shadow:0 2px 8px #0001;cursor:pointer;border:1px solid #d9e8e3}
-.service h3{margin:8px 0}
-.service span{font-size:32px}
-.card{background:white;padding:18px;border-radius:12px;margin:12px 0;box-shadow:0 2px 8px #0001}
-.option{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #bdcfca;border-radius:8px;font-size:16px}
-form{max-width:550px;margin:auto}
-.hidden{display:none}
-footer{text-align:center;background:#075e54;color:white;padding:18px;margin-top:30px}
-.back{background:#555;margin-bottom:15px}
+:root{--green:#087e70;--dark:#07584f;--light:#eaf7f4;--gold:#ffbd59}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7f8;color:#20312f}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+header{background:var(--dark);color:white;padding:14px 5%;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.logo{font-size:25px;font-weight:bold}
+.logo span{color:var(--gold)}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav button{background:transparent;color:white;padding:10px 13px;border-radius:8px}
+nav button:hover,nav button.active{background:#ffffff25}
+.hero{background:linear-gradient(120deg,#07584f,#0b9b83);color:white;padding:48px 6%;text-align:center}
+.hero h1{font-size:clamp(28px,5vw,44px);margin:0 0 12px}
+.hero p{font-size:17px;line-height:1.6}
+.search{max-width:520px;margin:22px auto 0;display:flex;background:white;border-radius:12px;padding:5px}
+.search input{border:0;outline:0;flex:1;min-width:0;padding:12px;color:#222}
+.search button,.primary{background:var(--gold);color:#26352f;padding:12px 20px;border-radius:9px;font-weight:bold}
+.container{max-width:1150px;margin:auto;padding:28px 5%}
+.section-title{text-align:center;margin-bottom:22px}
+.section-title h2{margin-bottom:6px;color:var(--dark)}
+.services{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:15px}
+.service-card{background:white;border:1px solid #e1eae8;border-radius:15px;padding:20px 10px;text-align:center;box-shadow:0 4px 13px #183a3510;cursor:pointer;transition:.2s}
+.service-card:hover{transform:translateY(-4px);border-color:var(--green)}
+.service-card .emoji{font-size:34px}
+.service-card h3{font-size:16px;margin:10px 0 5px}
+.service-card p{font-size:12px;color:#6c7b78;margin:0}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:15px}
+.feature{background:white;padding:20px;border-radius:13px;border:1px solid #e5ecea}
+.feature h3{color:var(--dark);margin-top:0}
+.page{display:none;min-height:65vh}
+.page.active{display:block}
+.panel{max-width:720px;margin:25px auto;background:white;border-radius:16px;padding:25px;box-shadow:0 5px 20px #123a3510}
+.panel h2{color:var(--dark);margin-top:0}
+.grid-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:20px 0}
+.option{background:var(--light);border:1px solid #cce5df;padding:16px;border-radius:11px;text-align:left;color:#174d45}
+.option:hover,.option.selected{border:2px solid var(--green);background:#d8f2eb}
+label{display:block;font-weight:bold;margin:13px 0 6px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #ccd9d6;border-radius:9px;background:white}
+textarea{min-height:95px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.primary{background:var(--green);color:white;margin-top:15px}
+.secondary{background:#e8f2ef;color:var(--dark);padding:11px 15px;border-radius:9px}
+.danger{background:#ffe8e6;color:#9c3029;padding:8px 11px;border-radius:8px}
+.notice{background:#fff6df;padding:13px;border-radius:9px;color:#72521b;margin:15px 0;font-size:14px}
+.success{background:#e5f7eb;padding:13px;border-radius:9px;color:#17633a;margin:15px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.stat{background:var(--light);padding:20px;border-radius:13px;text-align:center}
+.stat strong{display:block;font-size:28px;color:var(--dark)}
+.booking{border:1px solid #e0e9e6;padding:15px;border-radius:11px;margin:12px 0;background:white}
+.booking small{color:#6b7c78}
+footer{background:#073f39;color:white;text-align:center;padding:25px 10px;margin-top:35px}
+footer p{margin:7px}
+.empty{text-align:center;padding:25px;color:#70817d}
+.hidden{display:none!important}
+@media(max-width:600px){
+ header{justify-content:center}
+ nav{justify-content:center}
+ nav button{padding:9px}
+ .hero{padding:35px 5%}
+ .form-row{grid-template-columns:1fr}
+ .panel{padding:18px;margin:15px auto}
+}
 </style>
 </head>
 <body>
 
 <header>
-<h1>SevaLink</h1>
-<p>आपकी स्थानीय सेवाएँ, आपके पास</p>
+ <div class="logo">Seva<span>Link</span> 🔗</div>
+ <nav>
+  <button class="active" onclick="showPage('home',this)">Home</button>
+  <button onclick="showPage('help',this)">Help</button>
+  <button onclick="showPage('login',this)">Login</button>
+  <button onclick="showPage('contact',this)">Contact</button>
+  <button onclick="showPage('dashboard',this)">Dashboard</button>
+ </nav>
 </header>
 
-<nav>
-<button onclick="home()">Home</button>
-<button onclick="showLogin()">Login / Sign Up</button>
-<button onclick="showContact()">Contact Us</button>
-</nav>
-
 <main>
-<section id="home">
-<h2>हमारी 12 Services</h2>
-<div class="grid" id="services"></div>
+<section id="home" class="page active">
+ <div class="hero">
+  <h1>आपकी हर जरूरत का एक समाधान</h1>
+  <p>अपने आसपास भरोसेमंद Services खोजें और आसानी से Demo Booking करें।</p>
+  <div class="search">
+   <input id="searchInput" placeholder="अपनी Service खोजें..." oninput="filterServices()">
+   <button onclick="filterServices()">Search</button>
+  </div>
+ </div>
+ <div class="container">
+  <div class="section-title">
+   <h2>हमारी Services</h2>
+   <p>अपनी जरूरत की Service चुनें</p>
+  </div>
+  <div class="services" id="serviceList"></div>
+ </div>
+ <div class="container">
+  <div class="section-title"><h2>SevaLink क्यों चुनें?</h2></div>
+  <div class="features">
+   <div class="feature"><h3>⚡ आसान उपयोग</h3><p>अपनी जरूरत की सेवा आसानी से चुनें।</p></div>
+   <div class="feature"><h3>📱 मोबाइल फ्रेंडली</h3><p>मोबाइल और कंप्यूटर दोनों पर उपयोग करें।</p></div>
+   <div class="feature"><h3>🤝 एक जगह कई सेवाएँ</h3><p>अलग-अलग जरूरतों के लिए एक ही प्लेटफॉर्म।</p></div>
+  </div>
+ </div>
 </section>
 
-<section id="details" class="hidden">
-<button class="back" onclick="home()">← वापस जाएँ</button>
-<h2 id="serviceTitle"></h2>
-<p style="text-align:center">अपनी जरूरत की सेवा चुनें</p>
-<div id="options"></div>
+<section id="servicePage" class="page">
+ <div class="container">
+  <div class="panel">
+   <button class="secondary" onclick="showPage('home')">← Home पर जाएँ</button>
+   <h2 id="serviceTitle">Service</h2>
+   <p>अपनी जरूरत का विकल्प चुनें:</p>
+   <div class="grid-options" id="serviceOptions"></div>
+   <div id="bookingArea" class="hidden">
+    <h3>Demo Booking Form</h3>
+    <div class="notice">यह केवल Demo Booking है। इससे किसी वास्तविक सेवा की बुकिंग नहीं होगी।</div>
+    <form onsubmit="submitBooking(event)">
+     <label>आपका नाम</label>
+     <input id="customerName" required placeholder="अपना नाम लिखें">
+     <div class="form-row">
+      <div><label>मोबाइल नंबर</label><input id="customerPhone" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" required placeholder="10 अंकों का नंबर"></div>
+      <div><label>शहर / क्षेत्र</label><input id="customerCity" required placeholder="अपना क्षेत्र लिखें"></div>
+     </div>
+     <label>पूरा पता</label>
+     <textarea id="customerAddress" required placeholder="अपना पता लिखें"></textarea>
+     <label>अतिरिक्त जानकारी</label>
+     <textarea id="customerNote" placeholder="जरूरत के बारे में लिखें"></textarea>
+     <button class="primary" type="submit">Demo Booking करें</button>
+    </form>
+   </div>
+  </div>
+ </div>
 </section>
 
-<section id="booking" class="hidden">
-<button class="back" onclick="showDetails()">← वापस जाएँ</button>
-<h2>Book Your Service</h2>
-<div class="card">
-<form id="bookingForm">
-<label>आपका नाम</label>
-<input id="customer" required placeholder="अपना नाम लिखें">
-<label>मोबाइल नंबर</label>
-<input id="phone" required type="tel" pattern="[0-9]{10}" placeholder="10 अंकों का नंबर">
-<label>सेवा</label>
-<input id="selectedService" readonly>
-<label>आपका पता</label>
-<textarea id="address" required placeholder="पूरा पता लिखें"></textarea>
-<label>अतिरिक्त जानकारी</label>
-<textarea id="notes" placeholder="जरूरत की जानकारी"></textarea>
-<button type="submit" style="width:100%">Booking Request भेजें</button>
-</form>
-<p id="bookingMessage"></p>
-</div>
+<section id="login" class="page">
+ <div class="container">
+  <div class="panel">
+   <h2>Login / Sign Up</h2>
+   <div class="notice">यह Demo Login है। असली अकाउंट या OTP सिस्टम इससे नहीं बनेगा।</div>
+   <div class="grid-options">
+    <button class="option selected" id="loginTab" onclick="setAuthMode('login')">Login</button>
+    <button class="option" id="signupTab" onclick="setAuthMode('signup')">Sign Up</button>
+   </div>
+   <form onsubmit="demoAuth(event)">
+    <div id="nameField" class="hidden">
+     <label>आपका नाम</label><input id="authName" placeholder="अपना नाम">
+    </div>
+    <label>Email Address</label>
+    <input id="authEmail" type="email" required placeholder="example@gmail.com">
+    <label>Password</label>
+    <input id="authPassword" type="password" required minlength="4" placeholder="Password लिखें">
+    <label>आप कौन हैं?</label>
+    <select id="authRole">
+     <option>Customer</option>
+     <option>Service Provider</option>
+     <option>Equipment Owner</option>
+    </select>
+    <button class="primary" id="authButton" type="submit">Login</button>
+   </form>
+   <div id="authMessage"></div>
+   <button class="secondary" onclick="logout()">Logout</button>
+  </div>
+ </div>
 </section>
 
-<section id="login" class="hidden">
-<button class="back" onclick="home()">← वापस जाएँ</button>
-<h2>Login / Sign Up</h2>
-<div class="card">
-<form onsubmit="demoLogin(event)">
-<input required type="email" placeholder="Email Address">
-<input required type="password" placeholder="Password">
-<select><option>Customer</option><option>Service Provider</option></select>
-<button style="width:100%">Continue</button>
-<p id="loginMessage"></p>
-</form>
-</div>
+<section id="dashboard" class="page">
+ <div class="container">
+  <div class="panel">
+   <h2>📊 SevaLink Dashboard</h2>
+   <p>Demo Website Overview</p>
+   <div class="stats">
+    <div class="stat"><strong>12</strong>Services</div>
+    <div class="stat"><strong id="bookingCount">0</strong>Bookings</div>
+    <div class="stat"><strong id="userCount">0</strong>Demo Users</div>
+   </div>
+   <h3>Recent Demo Bookings</h3>
+   <div id="dashboardBookings"></div>
+   <button class="secondary" onclick="showPage('home')">Home पर जाएँ</button>
+  </div>
+ </div>
 </section>
 
-<section id="contact" class="hidden">
-<button class="back" onclick="home()">← वापस जाएँ</button>
-<h2>Contact Us</h2>
-<div class="card">
-<p>SevaLink - Local Services Marketplace</p>
-<p>अपनी समस्या या सुझाव हमें भेजें।</p>
-<form onsubmit="event.preventDefault();alert('Demo: आपका संदेश तैयार है।')">
-<input required placeholder="आपका नाम">
-<input required type="email" placeholder="Email">
-<textarea required placeholder="अपना संदेश लिखें"></textarea>
-<button style="width:100%">Send Message</button>
-</form>
-</div>
+<section id="help" class="page">
+ <div class="container">
+  <div class="panel">
+   <h2>Help Center</h2>
+   <p>SevaLink Demo का उपयोग कैसे करें?</p>
+   <div class="feature"><h3>1. Service चुनें</h3><p>Home Page पर अपनी जरूरत की Service पर क्लिक करें।</p></div>
+   <div class="feature"><h3>2. विकल्प चुनें</h3><p>हर Service में दिए गए चार विकल्पों में से एक चुनें।</p></div>
+   <div class="feature"><h3>3. Demo Booking करें</h3><p>अपनी जानकारी भरकर Demo Booking जमा करें।</p></div>
+   <div class="feature"><h3>4. Dashboard देखें</h3><p>अपनी Demo Booking Dashboard में देख सकते हैं।</p></div>
+   <div class="notice">ध्यान दें: यह एक Demo Project है, वास्तविक सेवा उपलब्ध कराने वाला सिस्टम नहीं।</div>
+  </div>
+ </div>
+</section>
+
+<section id="contact" class="page">
+ <div class="container">
+  <div class="panel">
+   <h2>Contact Us</h2>
+   <p>अपना संदेश भेजें।</p>
+   <form onsubmit="sendContact(event)">
+    <label>आपका नाम</label><input id="contactName" required>
+    <label>Email</label><input id="contactEmail" type="email" required>
+    <label>आपका संदेश</label><textarea id="contactMessage" required></textarea>
+    <button class="primary" type="submit">संदेश भेजें</button>
+   </form>
+   <div id="contactResult"></div>
+  </div>
+ </div>
 </section>
 </main>
 
-<footer>© 2026 SevaLink | Local Services Marketplace</footer>
+<footer>
+ <div class="logo">Seva<span>Link</span> 🔗</div>
+ <p>आपकी जरूरत, हमारी सेवा।</p>
+ <p>© 2026 SevaLink Demo Website</p>
+ <p>Home | Help | Login | Contact</p>
+</footer>
 
 <script>
-const data=[
-{name:"JCB",icon:"🚜",items:["खुदाई","लोडिंग","जमीन समतल करना","किराये पर JCB"]},
-{name:"Tractor",icon:"🚜",items:["खेत की जुताई","ट्रॉली सेवा","सामान ढुलाई","किराये पर ट्रैक्टर"]},
-{name:"Crane",icon:"🏗️",items:["मशीन उठाना","भारी सामान उठाना","वाहन उठाना","किराये पर क्रेन"]},
-{name:"Plumber",icon:"🔧",items:["पाइप मरम्मत","नल लगाना","पानी की टंकी मरम्मत","लीकेज ठीक करना"]},
-{name:"Electrician",icon:"💡",items:["वायरिंग","पंखा लगाना","लाइट लगाना","बिजली मरम्मत"]},
-{name:"Mechanic",icon:"🔩",items:["बाइक मरम्मत","कार मरम्मत","ट्रैक्टर मरम्मत","अन्य वाहन"]},
-{name:"Cleaning",icon:"🧹",items:["घर की सफाई","ऑफिस सफाई","टंकी सफाई","दुकान सफाई"]},
-{name:"Home Tutor",icon:"📚",items:["गणित","विज्ञान","अंग्रेजी","सभी विषय"]},
-{name:"Jobs",icon:"💼",items:["प्राइवेट नौकरी","पार्ट टाइम","फुल टाइम","स्थानीय नौकरी"]},
-{name:"Ambulance",icon:"🚑",items:["सामान्य एम्बुलेंस","अस्पताल ट्रांसफर","मरीज परिवहन","अन्य सहायता"]},
-{name:"Blood Donor",icon:"🩸",items:["ब्लड ग्रुप खोजें","डोनर खोजें","अस्पताल अनुरोध","डोनर रजिस्ट्रेशन"]},
-{name:"Volunteer Help",icon:"🤝",items:["बुजुर्ग सहायता","सामान की सहायता","स्थानीय मदद","अन्य सहायता"]}
+const services=[
+ {name:"JCB",icon:"🚜",options:["खुदाई","लोडिंग","जमीन समतल करना","किराये पर JCB"]},
+ {name:"Tractor",icon:"🚜",options:["खेत की जुताई","ट्रॉली सेवा","सामान ढुलाई","किराये पर ट्रैक्टर"]},
+ {name:"Crane",icon:"🏗️",options:["मशीन उठाना","भारी सामान उठाना","वाहन उठाना","किराये पर क्रेन"]},
+ {name:"Plumber",icon:"🔧",options:["पाइप मरम्मत","नल लगाना","पानी की टंकी मरम्मत","लीकेज ठीक करना"]},
+ {name:"Electrician",icon:"💡",options:["वायरिंग","पंखा लगाना","लाइट लगाना","बिजली मरम्मत"]},
+ {name:"Mechanic",icon:"🛠️",options:["बाइक मरम्मत","कार मरम्मत","ट्रैक्टर मरम्मत","अन्य वाहन"]},
+ {name:"Cleaning",icon:"🧹",options:["घर की सफाई","ऑफिस सफाई","टंकी सफाई","दुकान सफाई"]},
+ {name:"Home Tutor",icon:"📚",options:["गणित","विज्ञान","अंग्रेजी","सभी विषय"]},
+ {name:"Jobs",icon:"💼",options:["प्राइवेट नौकरी","पार्ट टाइम","फुल टाइम","स्थानीय नौकरी"]},
+ {name:"Ambulance",icon:"🚑",options:["सामान्य एम्बुलेंस","अस्पताल ट्रांसफर","मरीज परिवहन","अन्य सहायता"]},
+ {name:"Blood Donor",icon:"🩸",options:["ब्लड ग्रुप खोजें","डोनर खोजें","अस्पताल अनुरोध","डोनर रजिस्ट्रेशन"]},
+ {name:"Volunteer Help",icon:"🤝",options:["बुजुर्ग सहायता","सामान सहायता","स्थानीय मदद","अन्य सहायता"]}
 ];
 
-let current=0;
-let selected="";
+let selectedService=null;
+let selectedOption=null;
+let authMode="login";
 
-function hideAll(){
-["home","details","booking","login","contact"].forEach(id=>
-document.getElementById(id).classList.add("hidden"));
+function getData(key){
+ try{return JSON.parse(localStorage.getItem(key)||"[]")}catch(e){return []}
 }
-function home(){
-hideAll();
-document.getElementById("home").classList.remove("hidden");
+function saveData(key,value){
+ localStorage.setItem(key,JSON.stringify(value));
 }
-function showDetails(){
-hideAll();
-document.getElementById("details").classList.remove("hidden");
+function showPage(id,button){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ const page=document.getElementById(id);
+ if(page)page.classList.add("active");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ if(button)button.classList.add("active");
+ if(id==="dashboard")updateDashboard();
+ window.scrollTo({top:0,behavior:"smooth"});
 }
-function openService(i){
-current=i;
-hideAll();
-document.getElementById("details").classList.remove("hidden");
-document.getElementById("serviceTitle").textContent=data[i].name+" Services";
-document.getElementById("options").innerHTML=data[i].items.map((item,j)=>`
-<div class="card option">
-<strong>${j+1}. ${item}</strong>
-<button onclick="book('${item.replace(/'/g,"")}')">Book Now</button>
-</div>`).join("");
+function renderServices(){
+ const list=document.getElementById("serviceList");
+ list.innerHTML="";
+ services.forEach((s,i)=>{
+  const card=document.createElement("div");
+  card.className="service-card";
+  card.innerHTML=`<div class="emoji">${s.icon}</div><h3>${s.name}</h3><p>4 विकल्प उपलब्ध</p>`;
+  card.onclick=()=>openService(i);
+  list.appendChild(card);
+ });
 }
-function book(item){
-selected=item;
-hideAll();
-document.getElementById("booking").classList.remove("hidden");
-document.getElementById("selectedService").value=data[current].name+" - "+item;
+function filterServices(){
+ const query=document.getElementById("searchInput").value.toLowerCase();
+ document.querySelectorAll(".service-card").forEach((card,i)=>{
+  card.style.display=services[i].name.toLowerCase().includes(query)?"":"none";
+ });
 }
-function showLogin(){
-hideAll();
-document.getElementById("login").classList.remove("hidden");
+function openService(index){
+ selectedService=services[index];
+ selectedOption=null;
+ document.getElementById("serviceTitle").textContent=selectedService.icon+" "+selectedService.name+" Service";
+ document.getElementById("bookingArea").classList.add("hidden");
+ const options=document.getElementById("serviceOptions");
+ options.innerHTML="";
+ selectedService.options.forEach(option=>{
+  const btn=document.createElement("button");
+  btn.className="option";
+  btn.textContent=option;
+  btn.onclick=()=>{
+   selectedOption=option;
+   options.querySelectorAll(".option").forEach(b=>b.classList.remove("selected"));
+   btn.classList.add("selected");
+   document.getElementById("bookingArea").classList.remove("hidden");
+   document.getElementById("bookingArea").scrollIntoView({behavior:"smooth"});
+  };
+  options.appendChild(btn);
+ });
+ showPage("servicePage");
 }
-function showContact(){
-hideAll();
-document.getElementById("contact").classList.remove("hidden");
+function submitBooking(event){
+ event.preventDefault();
+ if(!selectedService||!selectedOption)return;
+ const bookings=getData("sevalink_bookings");
+ const booking={
+  id:Date.now(),
+  service:selectedService.name,
+  option:selectedOption,
+  name:document.getElementById("customerName").value.trim(),
+  phone:document.getElementById("customerPhone").value.trim(),
+  city:document.getElementById("customerCity").value.trim(),
+  address:document.getElementById("customerAddress").value.trim(),
+  note:document.getElementById("customerNote").value.trim(),
+  date:new Date().toLocaleString("hi-IN")
+ };
+ bookings.unshift(booking);
+ saveData("sevalink_bookings",bookings);
+ alert("आपकी Demo Booking सफलतापूर्वक सेव हो गई!");
+ event.target.reset();
+ showPage("dashboard");
 }
-function demoLogin(e){
-e.preventDefault();
-document.getElementById("loginMessage").textContent="Demo Login: असली अकाउंट सिस्टम अभी कनेक्ट नहीं है।";
+function setAuthMode(mode){
+ authMode=mode;
+ document.getElementById("nameField").classList.toggle("hidden",mode!=="signup");
+ document.getElementById("authButton").textContent=mode==="signup"?"Sign Up":"Login";
+ document.getElementById("loginTab").classList.toggle("selected",mode==="login");
+ document.getElementById("signupTab").classList.toggle("selected",mode==="signup");
+ document.getElementById("authMessage").innerHTML="";
 }
-document.getElementById("bookingForm").addEventListener("submit",function(e){
-e.preventDefault();
-const request={
-name:document.getElementById("customer").value,
-phone:document.getElementById("phone").value,
-service:document.getElementById("selectedService").value,
-address:document.getElementById("address").value,
-notes:document.getElementById("notes").value
-};
-let list=JSON.parse(localStorage.getItem("sevalinkBookings")||"[]");
-list.push(request);
-localStorage.setItem("sevalinkBookings",JSON.stringify(list));
-document.getElementById("bookingMessage").textContent="Demo Booking सेव हो गई है। अभी Provider तक नहीं पहुँची है।";
-this.reset();
-});
-document.getElementById("services").innerHTML=data.map((s,i)=>`
-<div class="service" onclick="openService(${i})">
-<span>${s.icon}</span>
-<h3>${s.name}</h3>
-<p>4 Services देखें</p>
-</div>`).join("");
-home();
+function demoAuth(event){
+ event.preventDefault();
+ const email=document.getElementById("authEmail").value.trim().toLowerCase();
+ const password=document.getElementById("authPassword").value;
+ const role=document.getElementById("authRole").value;
+ let users=getData("sevalink_users");
+ if(authMode==="signup"){
+  const name=document.getElementById("authName").value.trim();
+  if(!name){alert("अपना नाम लिखें");return}
+  if(users.some(u=>u.email===email)){
+   document.getElementById("authMessage").innerHTML='<p class="notice">यह Email पहले से Demo में मौजूद है। Login करें।</p>';
+   return;
+  }
+  users.push({name,email,password,role});
+  saveData("sevalink_users",users);
+  document.getElementById("authMessage").innerHTML='<p class="success">Demo Sign Up सफल हुआ। अब Login कर सकते हैं।</p>';
+  setAuthMode("login");
+ }else{
+  const user=users.find(u=>u.email===email&&u.password===password);
+  if(!user){
+   document.getElementById("authMessage").innerHTML='<p class="notice">Demo Account नहीं मिला। पहले Sign Up करें।</p>';
+   return;
+  }
+  localStorage.setItem("sevalink_current_user",JSON.stringify({name:user.name,email:user.email,role:user.role}));
+  document.getElementById("authMessage").innerHTML='<p class="success">स्वागत है, '+escapeHTML(user.name)+'! Demo Login सफल हुआ।</p>';
+ }
+}
+function logout(){
+ localStorage.removeItem("sevalink_current_user");
+ document.getElementById("authMessage").innerHTML='<p class="success">Demo Logout हो गया।</p>';
+}
+function updateDashboard(){
+ const bookings=getData("sevalink_bookings");
+ const users=getData("sevalink_users");
+ document.getElementById("bookingCount").textContent=bookings.length;
+ document.getElementById("userCount").textContent=users.length;
+ const area=document.getElementById("dashboardBookings");
+ area.innerHTML="";
+ if(!bookings.length){
+  area.innerHTML='<div class="empty">अभी कोई Demo Booking नहीं है।</div>';
+  return;
+ }
+ bookings.forEach(b=>{
+  const item=document.createElement("div");
+  item.className="booking";
+  item.innerHTML=`<strong>${escapeHTML(b.service)} — ${escapeHTML(b.option)}</strong>
+   <p>${escapeHTML(b.name)} | ${escapeHTML(b.phone)}</p>
+   <p>${escapeHTML(b.city)}</p>
+   <small>${escapeHTML(b.date)}</small>`;
+  area.appendChild(item);
+ });
+}
+function sendContact(event){
+ event.preventDefault();
+ const messages=getData("sevalink_messages");
+ messages.push({
+  name:document.getElementById("contactName").value.trim(),
+  email:document.getElementById("contactEmail").value.trim(),
+  message:document.getElementById("contactMessage").value.trim(),
+  date:new Date().toLocaleString("hi-IN")
+ });
+ saveData("sevalink_messages",messages);
+ document.getElementById("contactResult").innerHTML='<p class="success">आपका Demo Message सेव हो गया। धन्यवाद!</p>';
+ event.target.reset();
+}
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ }[c]));
+}
+renderServices();
+updateDashboard();
 </script>
 </body>
 </html>
