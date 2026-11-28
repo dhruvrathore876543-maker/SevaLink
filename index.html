@@ -1,77 +1,195 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#075e54"><title>SevaLink - Local Services</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SevaLink - Local Services</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#eef5f3;color:#173b36}
-header{background:#075e54;color:white;padding:16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-.brand{font-size:25px;font-weight:bold}.tag{font-size:12px}button{cursor:pointer;font:inherit}
-main{max-width:1000px;margin:auto;padding:16px}.hero{background:linear-gradient(135deg,#075e54,#168878);color:white;padding:25px;border-radius:16px;margin:8px 0 18px}
-.hero h1{margin:0 0 8px;font-size:27px}.hero p{line-height:1.5}
-input,select,textarea{width:100%;padding:13px;margin:7px 0;border:1px solid #ccd9d5;border-radius:9px;font-size:15px}
-#authPanel{max-width:430px;margin:28px auto;background:white;padding:22px;border-radius:16px;box-shadow:0 5px 20px #ccd9d5}
-.tabs{display:flex;gap:8px}.tabs button{width:50%;padding:12px;border:0;border-radius:9px;background:#e5efec;color:#075e54;font-weight:bold}.tabs .active,.primary{background:#075e54;color:white}
-.primary{width:100%;padding:13px;border:0;border-radius:9px;margin-top:9px;font-weight:bold}
-#message{text-align:center;min-height:22px;font-size:14px;overflow-wrap:anywhere}
-#dashboard{display:none}.heading{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}.heading h2{font-size:20px;margin:0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
-.service{background:white;border:1px solid #e0ebe7;border-radius:14px;padding:15px 12px;text-align:left;color:#173b36;min-height:110px}
-.service .emoji{display:block;font-size:28px;margin-bottom:8px}.service strong,.service small{display:block}.service small{color:#667873;margin-top:5px}
-.panel{background:white;border-radius:14px;padding:17px;margin-top:17px}.panel h2{margin-top:0}
-#requestPanel{display:none}.muted{color:#667873;font-size:13px;line-height:1.5}
-footer{text-align:center;background:#073d38;color:white;padding:20px;font-size:13px}
-.small{padding:9px 12px;border:1px solid #ffffff80;border-radius:8px;color:white;background:#ffffff18}
-@media(min-width:650px){.grid{grid-template-columns:repeat(3,1fr)}main{padding:24px}}
-</style></head>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef5f3;color:#18332e}
+header{background:#075e54;color:white;padding:18px;text-align:center}
+header h1{margin:0;font-size:28px}
+header p{margin:7px 0 0}
+nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;background:#064b43;padding:12px}
+button{border:0;border-radius:8px;padding:12px 16px;background:#087e70;color:white;font-weight:bold;cursor:pointer}
+nav button{background:white;color:#075e54}
+main{max-width:950px;margin:auto;padding:18px}
+h2{text-align:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:13px}
+.service{background:white;border-radius:12px;padding:20px 10px;text-align:center;box-shadow:0 2px 8px #0001;cursor:pointer;border:1px solid #d9e8e3}
+.service h3{margin:8px 0}
+.service span{font-size:32px}
+.card{background:white;padding:18px;border-radius:12px;margin:12px 0;box-shadow:0 2px 8px #0001}
+.option{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+input,select,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #bdcfca;border-radius:8px;font-size:16px}
+form{max-width:550px;margin:auto}
+.hidden{display:none}
+footer{text-align:center;background:#075e54;color:white;padding:18px;margin-top:30px}
+.back{background:#555;margin-bottom:15px}
+</style>
+</head>
 <body>
-<header><div><div class="brand">🙏 SevaLink</div><div class="tag">Connect People • Help People</div></div><div><span id="userLabel" style="font-size:12px"></span> <button id="logout" class="small" style="display:none">Logout</button></div></header>
+
+<header>
+<h1>SevaLink</h1>
+<p>आपकी स्थानीय सेवाएँ, आपके पास</p>
+</header>
+
+<nav>
+<button onclick="home()">Home</button>
+<button onclick="showLogin()">Login / Sign Up</button>
+<button onclick="showContact()">Contact Us</button>
+</nav>
+
 <main>
-<section id="authPanel">
-<div class="tabs"><button id="loginTab" class="active" type="button">Login</button><button id="signupTab" type="button">Sign Up</button></div>
-<form id="loginForm"><h2>Welcome Back!</h2><input type="email" name="email" placeholder="Email Address" required><input type="password" name="password" placeholder="Password" required><button class="primary">Login</button></form>
-<form id="signupForm" style="display:none"><h2>Create Account</h2><input name="fullname" placeholder="Full Name" maxlength="80" required><input type="email" name="email" placeholder="Email Address" required><input type="password" name="password" placeholder="Create Password (minimum 6 characters)" minlength="6" required><select name="accountType" required><option value="">Select Account Type</option><option>Customer</option><option>Service Provider</option><option>Volunteer</option></select><button class="primary">Create Account</button></form>
-<p id="message" role="status" aria-live="polite"></p>
+<section id="home">
+<h2>हमारी 12 Services</h2>
+<div class="grid" id="services"></div>
 </section>
-<section id="dashboard">
-<div class="hero"><h1>Find Local Services Near You</h1><p>Choose the service you need and send a request to connect with local providers.</p><input id="search" type="search" placeholder="Search JCB, plumber, electrician..."></div>
-<div class="heading"><h2>Explore Services</h2><span class="muted">12 categories</span></div>
-<div class="grid" id="services">
-<button class="service" data-name="JCB"><span class="emoji">🚜</span><strong>JCB Service</strong><small>Earthmoving equipment</small></button>
-<button class="service" data-name="Tractor"><span class="emoji">🚜</span><strong>Tractor</strong><small>Farm and field services</small></button>
-<button class="service" data-name="Crane"><span class="emoji">🏗️</span><strong>Crane</strong><small>Lifting equipment</small></button>
-<button class="service" data-name="Plumber"><span class="emoji">🚰</span><strong>Plumber</strong><small>Water and pipe repairs</small></button>
-<button class="service" data-name="Electrician"><span class="emoji">⚡</span><strong>Electrician</strong><small>Electrical services</small></button>
-<button class="service" data-name="Mechanic"><span class="emoji">🔧</span><strong>Mechanic</strong><small>Vehicle repair</small></button>
-<button class="service" data-name="Cleaner"><span class="emoji">🧹</span><strong>Cleaning</strong><small>Home and shop cleaning</small></button>
-<button class="service" data-name="Tutor"><span class="emoji">📚</span><strong>Home Tutor</strong><small>Learning support</small></button>
-<button class="service" data-name="Jobs"><span class="emoji">💼</span><strong>Jobs</strong><small>Local work opportunities</small></button>
-<button class="service" data-name="Ambulance"><span class="emoji">🚑</span><strong>Ambulance</strong><small>Emergency transport</small></button>
-<button class="service" data-name="Blood Donor"><span class="emoji">🩸</span><strong>Blood Donor</strong><small>Volunteer donor directory</small></button>
-<button class="service" data-name="Volunteer"><span class="emoji">🤝</span><strong>Volunteer Help</strong><small>Community support</small></button>
+
+<section id="details" class="hidden">
+<button class="back" onclick="home()">← वापस जाएँ</button>
+<h2 id="serviceTitle"></h2>
+<p style="text-align:center">अपनी जरूरत की सेवा चुनें</p>
+<div id="options"></div>
+</section>
+
+<section id="booking" class="hidden">
+<button class="back" onclick="showDetails()">← वापस जाएँ</button>
+<h2>Book Your Service</h2>
+<div class="card">
+<form id="bookingForm">
+<label>आपका नाम</label>
+<input id="customer" required placeholder="अपना नाम लिखें">
+<label>मोबाइल नंबर</label>
+<input id="phone" required type="tel" pattern="[0-9]{10}" placeholder="10 अंकों का नंबर">
+<label>सेवा</label>
+<input id="selectedService" readonly>
+<label>आपका पता</label>
+<textarea id="address" required placeholder="पूरा पता लिखें"></textarea>
+<label>अतिरिक्त जानकारी</label>
+<textarea id="notes" placeholder="जरूरत की जानकारी"></textarea>
+<button type="submit" style="width:100%">Booking Request भेजें</button>
+</form>
+<p id="bookingMessage"></p>
 </div>
-<section class="panel"><h2>How SevaLink Works</h2><p>1. Choose a service category.</p><p>2. Enter your contact and service details.</p><p>3. Connect with a suitable local provider.</p></section>
-<section class="panel" id="requestPanel"><h2 id="requestHeading">Service Request</h2><form id="requestForm"><input id="chosenService" readonly><input name="name" placeholder="Your name" maxlength="80" required><input name="phone" type="tel" placeholder="Contact number" maxlength="15" required><input name="area" placeholder="Your area / city" maxlength="100" required><textarea name="details" placeholder="Describe the service you need" rows="3" maxlength="500" required></textarea><button class="primary">Prepare Request</button><button type="button" id="cancel" class="primary" style="background:#71817c">Cancel</button></form><p id="requestMessage" class="muted"></p></section>
-<p class="muted" style="text-align:center">Important: service requests are demo-only at this stage. They are not yet saved or sent to providers.</p>
-</section></main><footer>🙏 SevaLink • Connect People • Help People<br>© 2026 SevaLink</footer>
-<script type="module">
-import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-const SUPABASE_URL='https://gtqpybetecvcozbsjnsl.supabase.co';
-const SUPABASE_KEY='sb_publishable_aXeYcDdIVsRPCz8V1YKSpg_hNDDl8uo';
-const supabase=createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
-const auth=$('authPanel'),dash=$('dashboard'),login=$('loginForm'),signup=$('signupForm'),msg=$('message');
-function say(t){msg.textContent=t}
-function tabs(which){let a=which==='login';login.style.display=a?'block':'none';signup.style.display=a?'none':'block';$('loginTab').classList.toggle('active',a);$('signupTab').classList.toggle('active',!a);say('')}
-function sessionUI(s){let u=s?.user;auth.style.display=u?'none':'block';dash.style.display=u?'block':'none';$('logout').style.display=u?'inline-block':'none';$('userLabel').textContent=u?(u.email||'Signed in'):''}
-$('loginTab').onclick=()=>tabs('login');$('signupTab').onclick=()=>tabs('signup');
-signup.onsubmit=async e=>{e.preventDefault();let b=signup.querySelector('button');b.disabled=true;say('Creating account...');try{let {data,error}=await supabase.auth.signUp({email:signup.elements.email.value.trim(),password:signup.elements.password.value,options:{data:{full_name:signup.elements.fullname.value.trim(),account_type:signup.elements.accountType.value},emailRedirectTo:location.origin}});if(error)throw error;if(data.session){sessionUI(data.session);say('Account created successfully.')}else{tabs('login');say('Account created. Check your email for verification, then log in.')}signup.reset()}catch(e){say('Sign Up Error: '+e.message)}finally{b.disabled=false}};
-login.onsubmit=async e=>{e.preventDefault();let b=login.querySelector('button');b.disabled=true;say('Logging in...');try{let {data,error}=await supabase.auth.signInWithPassword({email:login.elements.email.value.trim(),password:login.elements.password.value});if(error)throw error;sessionUI(data.session);login.reset()}catch(e){say('Login Error: '+e.message)}finally{b.disabled=false}};
-$('logout').onclick=async()=>{let {error}=await supabase.auth.signOut();if(error)alert(error.message);else sessionUI(null)};
-supabase.auth.onAuthStateChange((_event,s)=>sessionUI(s));
-let {data:{session},error}=await supabase.auth.getSession();if(error)say(error.message);sessionUI(session);
-$('search').addEventListener('input',e=>{let q=e.target.value.toLowerCase();document.querySelectorAll('.service').forEach(c=>c.style.display=c.dataset.name.toLowerCase().includes(q)?'block':'none')});
-document.querySelectorAll('.service').forEach(c=>c.onclick=()=>{$('chosenService').value=c.dataset.name;$('requestHeading').textContent=c.dataset.name+' Request';$('requestPanel').style.display='block';$('requestMessage').textContent='';$('requestPanel').scrollIntoView({behavior:'smooth'})});
-$('cancel').onclick=()=>{$('requestPanel').style.display='none';$('requestForm').reset()};
-$('requestForm').onsubmit=e=>{e.preventDefault();$('requestMessage').textContent='Demo only: this request has not been sent or saved. Provider booking will be connected in a later update.'};
-</script></body></html>
+</section>
+
+<section id="login" class="hidden">
+<button class="back" onclick="home()">← वापस जाएँ</button>
+<h2>Login / Sign Up</h2>
+<div class="card">
+<form onsubmit="demoLogin(event)">
+<input required type="email" placeholder="Email Address">
+<input required type="password" placeholder="Password">
+<select><option>Customer</option><option>Service Provider</option></select>
+<button style="width:100%">Continue</button>
+<p id="loginMessage"></p>
+</form>
+</div>
+</section>
+
+<section id="contact" class="hidden">
+<button class="back" onclick="home()">← वापस जाएँ</button>
+<h2>Contact Us</h2>
+<div class="card">
+<p>SevaLink - Local Services Marketplace</p>
+<p>अपनी समस्या या सुझाव हमें भेजें।</p>
+<form onsubmit="event.preventDefault();alert('Demo: आपका संदेश तैयार है।')">
+<input required placeholder="आपका नाम">
+<input required type="email" placeholder="Email">
+<textarea required placeholder="अपना संदेश लिखें"></textarea>
+<button style="width:100%">Send Message</button>
+</form>
+</div>
+</section>
+</main>
+
+<footer>© 2026 SevaLink | Local Services Marketplace</footer>
+
+<script>
+const data=[
+{name:"JCB",icon:"🚜",items:["खुदाई","लोडिंग","जमीन समतल करना","किराये पर JCB"]},
+{name:"Tractor",icon:"🚜",items:["खेत की जुताई","ट्रॉली सेवा","सामान ढुलाई","किराये पर ट्रैक्टर"]},
+{name:"Crane",icon:"🏗️",items:["मशीन उठाना","भारी सामान उठाना","वाहन उठाना","किराये पर क्रेन"]},
+{name:"Plumber",icon:"🔧",items:["पाइप मरम्मत","नल लगाना","पानी की टंकी मरम्मत","लीकेज ठीक करना"]},
+{name:"Electrician",icon:"💡",items:["वायरिंग","पंखा लगाना","लाइट लगाना","बिजली मरम्मत"]},
+{name:"Mechanic",icon:"🔩",items:["बाइक मरम्मत","कार मरम्मत","ट्रैक्टर मरम्मत","अन्य वाहन"]},
+{name:"Cleaning",icon:"🧹",items:["घर की सफाई","ऑफिस सफाई","टंकी सफाई","दुकान सफाई"]},
+{name:"Home Tutor",icon:"📚",items:["गणित","विज्ञान","अंग्रेजी","सभी विषय"]},
+{name:"Jobs",icon:"💼",items:["प्राइवेट नौकरी","पार्ट टाइम","फुल टाइम","स्थानीय नौकरी"]},
+{name:"Ambulance",icon:"🚑",items:["सामान्य एम्बुलेंस","अस्पताल ट्रांसफर","मरीज परिवहन","अन्य सहायता"]},
+{name:"Blood Donor",icon:"🩸",items:["ब्लड ग्रुप खोजें","डोनर खोजें","अस्पताल अनुरोध","डोनर रजिस्ट्रेशन"]},
+{name:"Volunteer Help",icon:"🤝",items:["बुजुर्ग सहायता","सामान की सहायता","स्थानीय मदद","अन्य सहायता"]}
+];
+
+let current=0;
+let selected="";
+
+function hideAll(){
+["home","details","booking","login","contact"].forEach(id=>
+document.getElementById(id).classList.add("hidden"));
+}
+function home(){
+hideAll();
+document.getElementById("home").classList.remove("hidden");
+}
+function showDetails(){
+hideAll();
+document.getElementById("details").classList.remove("hidden");
+}
+function openService(i){
+current=i;
+hideAll();
+document.getElementById("details").classList.remove("hidden");
+document.getElementById("serviceTitle").textContent=data[i].name+" Services";
+document.getElementById("options").innerHTML=data[i].items.map((item,j)=>`
+<div class="card option">
+<strong>${j+1}. ${item}</strong>
+<button onclick="book('${item.replace(/'/g,"")}')">Book Now</button>
+</div>`).join("");
+}
+function book(item){
+selected=item;
+hideAll();
+document.getElementById("booking").classList.remove("hidden");
+document.getElementById("selectedService").value=data[current].name+" - "+item;
+}
+function showLogin(){
+hideAll();
+document.getElementById("login").classList.remove("hidden");
+}
+function showContact(){
+hideAll();
+document.getElementById("contact").classList.remove("hidden");
+}
+function demoLogin(e){
+e.preventDefault();
+document.getElementById("loginMessage").textContent="Demo Login: असली अकाउंट सिस्टम अभी कनेक्ट नहीं है।";
+}
+document.getElementById("bookingForm").addEventListener("submit",function(e){
+e.preventDefault();
+const request={
+name:document.getElementById("customer").value,
+phone:document.getElementById("phone").value,
+service:document.getElementById("selectedService").value,
+address:document.getElementById("address").value,
+notes:document.getElementById("notes").value
+};
+let list=JSON.parse(localStorage.getItem("sevalinkBookings")||"[]");
+list.push(request);
+localStorage.setItem("sevalinkBookings",JSON.stringify(list));
+document.getElementById("bookingMessage").textContent="Demo Booking सेव हो गई है। अभी Provider तक नहीं पहुँची है।";
+this.reset();
+});
+document.getElementById("services").innerHTML=data.map((s,i)=>`
+<div class="service" onclick="openService(${i})">
+<span>${s.icon}</span>
+<h3>${s.name}</h3>
+<p>4 Services देखें</p>
+</div>`).join("");
+home();
+</script>
+</body>
+</html>
